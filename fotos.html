@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Nossas Fotos 💑</title>
   <style>
     body {
@@ -13,7 +13,42 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      position: relative;
+      text-align: center;
+    }
+
+    #startScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      background-color: #fff0f5;
+    }
+
+    #startButton {
+      padding: 20px 40px;
+      font-size: 24px;
+      border: none;
+      border-radius: 12px;
+      background-color: #e91e63;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.6);
+      transition: background-color 0.3s ease;
+    }
+    #startButton:hover {
+      background-color: #d81b60;
+    }
+
+    #content {
+      display: none; /* esconde o conteúdo até tocar música */
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      padding: 10px;
     }
 
     img {
@@ -29,7 +64,7 @@
       gap: 20px;
     }
 
-    button {
+    button.navButton {
       padding: 10px 20px;
       font-size: 18px;
       border: none;
@@ -37,47 +72,49 @@
       cursor: pointer;
       background-color: #e91e63;
       color: white;
+      box-shadow: 0 3px 6px rgba(233, 30, 99, 0.5);
+      transition: background-color 0.3s ease;
     }
-
-    button:hover {
+    button.navButton:hover {
       background-color: #d81b60;
-    }
-
-    #btnTocarMusica {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
     }
   </style>
 </head>
 <body>
 
-  <button id="btnTocarMusica">Tocar música 🎵</button>
+  <div id="startScreen">
+    <button id="startButton">Tocar música e ver fotos 💖</button>
+  </div>
 
-  <audio id="musicaFundo" src="musica/fundo.mp3" loop></audio>
+  <div id="content">
+    <audio id="musicaFundo" src="musica/fundo.mp3" loop></audio>
 
-  <h1>Nossas Memórias 💖</h1>
-  <img id="foto" src="fotos/foto1.jpg" alt="Foto do casal">
-  
-  <div class="botoes">
-    <button onclick="voltar()">← Anterior</button>
-    <button onclick="proxima()">Próxima →</button>
+    <h1>Nossas Memórias 💖</h1>
+    <img id="foto" src="fotos/foto1.jpg" alt="Foto do casal" />
+
+    <div class="botoes">
+      <button class="navButton" onclick="voltar()">← Anterior</button>
+      <button class="navButton" onclick="proxima()">Próxima →</button>
+    </div>
   </div>
 
   <script>
     const total = 20;
     let atual = 1;
 
+    const startButton = document.getElementById('startButton');
+    const startScreen = document.getElementById('startScreen');
+    const content = document.getElementById('content');
+    const musicaFundo = document.getElementById('musicaFundo');
+
+    startButton.addEventListener('click', () => {
+      musicaFundo.play().catch(() => {});
+      startScreen.style.display = 'none';
+      content.style.display = 'flex';
+    });
+
     function atualizarFoto() {
-      document.getElementById('foto').src = `fotos/foto ${atual}.jpeg`;
+      document.getElementById('foto').src = `fotos/foto${atual}.jpeg`;
     }
 
     function proxima() {
@@ -89,18 +126,6 @@
       atual = atual <= 1 ? total : atual - 1;
       atualizarFoto();
     }
-
-    // Botão para tocar música no iPhone e outros dispositivos que bloqueiam autoplay
-    const btnTocar = document.getElementById('btnTocarMusica');
-    const musica = document.getElementById('musicaFundo');
-
-    btnTocar.addEventListener('click', () => {
-      musica.play().then(() => {
-        btnTocar.style.display = 'none';
-      }).catch((e) => {
-        alert('Não foi possível tocar a música automaticamente. Tente novamente.');
-      });
-    });
   </script>
 
 </body>
