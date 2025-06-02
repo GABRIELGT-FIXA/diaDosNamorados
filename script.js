@@ -10,63 +10,20 @@ function resizeCanvas() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.scale(dpr, dpr);
 }
-
 resizeCanvas();
-
-let botaoSim = {};
-let botaoNao = {};
-let botaoProximo = {};
-let botaoFotos = {};
-
-function posicionarBotoes() {
-  const largura = window.innerWidth;
-  const altura = window.innerHeight;
-
-  botaoSim = {
-    texto: "Sim 💖",
-    x: largura / 2 - 130,
-    y: altura * 0.5,
-    w: 120,
-    h: 50,
-    cor: "#4CAF50"
-  };
-
-  botaoNao = {
-    texto: "Não 😬",
-    x: largura / 2 + 10,
-    y: altura * 0.5,
-    w: 120,
-    h: 50,
-    cor: "#F44336"
-  };
-
-  botaoProximo = {
-    texto: "Continuar ➡️",
-    x: largura / 2 - 60,
-    y: altura * 0.65,
-    w: 120,
-    h: 50,
-    cor: "#2196F3"
-  };
-
-  botaoFotos = {
-    texto: "Ver nossas fotos 📸",
-    x: largura / 2 - 100,
-    y: altura * 0.65,
-    w: 200,
-    h: 50,
-    cor: "#4CAF50"
-  };
-}
-
-posicionarBotoes();
-
-window.addEventListener('resize', () => {
-  resizeCanvas();
-  posicionarBotoes();
-});
+window.addEventListener('resize', resizeCanvas);
 
 const pergunta = "Quer ser meu amor pra sempre?";
+const botaoSim = { texto: "Sim 💖", x: 200, y: 300, w: 120, h: 50, cor: "#4CAF50" };
+const botaoNao = { texto: "Não 😬", x: 400, y: 300, w: 120, h: 50, cor: "#F44336" };
+const botaoProximo = { texto: "Continuar ➡️", x: window.innerWidth / 2 - 60, y: 350, w: 120, h: 50, cor: "#2196F3" };
+const botaoFotos = { texto: "Ver nossas fotos 📸", x: window.innerWidth / 2 - 100, y: 320, w: 200, h: 50, cor: "#4CAF50" };
+
+let fase = 1;
+let motivoAtual = -1;
+let letrasMostradas = 0;
+let tempoCartinha;
+
 const fraseCartinha = "Desde o dia que te conheci, minha vida ganhou mais cor, mais paz e muito amor. Você é meu presente todos os dias.";
 const motivos = [
   "Seu sorriso ilumina meu dia 😊",
@@ -75,11 +32,6 @@ const motivos = [
   "Seu abraço é meu lugar favorito 🤗",
   "A vida com você é muito mais linda ❤️"
 ];
-
-let fase = 1;
-let motivoAtual = -1;
-let letrasMostradas = 0;
-let tempoCartinha;
 
 let coracoes = [];
 for (let i = 0; i < 50; i++) coracoes.push(criaCoracao());
@@ -124,6 +76,8 @@ function desenhar() {
   atualizaCoracoes();
   ctx.textAlign = "center";
 
+  const larguraMaxima = Math.min(window.innerWidth * 0.9, 500);
+
   if (fase === 1) {
     ctx.fillStyle = "#000";
     ctx.font = "28px Arial";
@@ -138,10 +92,17 @@ function desenhar() {
       desenhaBotao(botaoProximo);
     }
   } else if (fase === 3) {
-    ctx.font = "24px Arial";
+    // Ajusta tamanho da fonte baseado na largura da tela
+    let fonteBase = 24;
+    if (window.innerWidth < 400) {
+      fonteBase = 18;
+    } else if (window.innerWidth < 600) {
+      fonteBase = 22;
+    }
+    ctx.font = `${fonteBase}px Arial`;
     ctx.fillStyle = "#333";
     let textoParcial = fraseCartinha.substring(0, letrasMostradas);
-    desenhaTextoMultilinha(textoParcial, window.innerWidth / 2, 180, 500);
+    desenhaTextoMultilinha(textoParcial, window.innerWidth / 2, 180, larguraMaxima);
     if (letrasMostradas >= fraseCartinha.length) {
       desenhaBotao(botaoProximo);
     }
@@ -166,20 +127,21 @@ function desenhar() {
 function desenhaTextoMultilinha(texto, x, y, maxWidth) {
   const palavras = texto.split(" ");
   let linha = "";
-  let altura = 30;
+  const alturaLinha = 30;
+  let yAtual = y;
 
   for (let i = 0; i < palavras.length; i++) {
     const linhaTeste = linha + palavras[i] + " ";
     const largura = ctx.measureText(linhaTeste).width;
-    if (largura > maxWidth) {
-      ctx.fillText(linha, x, y);
+    if (largura > maxWidth && linha !== "") {
+      ctx.fillText(linha, x, yAtual);
       linha = palavras[i] + " ";
-      y += altura;
+      yAtual += alturaLinha;
     } else {
       linha = linhaTeste;
     }
   }
-  ctx.fillText(linha, x, y);
+  ctx.fillText(linha, x, yAtual);
 }
 
 function desenhaBotao(botao) {
