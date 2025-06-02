@@ -10,20 +10,63 @@ function resizeCanvas() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.scale(dpr, dpr);
 }
+
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+
+let botaoSim = {};
+let botaoNao = {};
+let botaoProximo = {};
+let botaoFotos = {};
+
+function posicionarBotoes() {
+  const largura = window.innerWidth;
+  const altura = window.innerHeight;
+
+  botaoSim = {
+    texto: "Sim 💖",
+    x: largura / 2 - 130,
+    y: altura * 0.5,
+    w: 120,
+    h: 50,
+    cor: "#4CAF50"
+  };
+
+  botaoNao = {
+    texto: "Não 😬",
+    x: largura / 2 + 10,
+    y: altura * 0.5,
+    w: 120,
+    h: 50,
+    cor: "#F44336"
+  };
+
+  botaoProximo = {
+    texto: "Continuar ➡️",
+    x: largura / 2 - 60,
+    y: altura * 0.65,
+    w: 120,
+    h: 50,
+    cor: "#2196F3"
+  };
+
+  botaoFotos = {
+    texto: "Ver nossas fotos 📸",
+    x: largura / 2 - 100,
+    y: altura * 0.65,
+    w: 200,
+    h: 50,
+    cor: "#4CAF50"
+  };
+}
+
+posicionarBotoes();
+
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  posicionarBotoes();
+});
 
 const pergunta = "Quer ser meu amor pra sempre?";
-const botaoSim = { texto: "Sim 💖", x: 200, y: 300, w: 120, h: 50, cor: "#4CAF50" };
-const botaoNao = { texto: "Não 😬", x: 400, y: 300, w: 120, h: 50, cor: "#F44336" };
-const botaoProximo = { texto: "Continuar ➡️", x: window.innerWidth / 2 - 60, y: 350, w: 120, h: 50, cor: "#2196F3" };
-const botaoFotos = { texto: "Ver nossas fotos 📸", x: window.innerWidth / 2 - 100, y: 320, w: 200, h: 50, cor: "#4CAF50" };
-
-let fase = 1;
-let motivoAtual = -1;
-let letrasMostradas = 0;
-let tempoCartinha;
-
 const fraseCartinha = "Desde o dia que te conheci, minha vida ganhou mais cor, mais paz e muito amor. Você é meu presente todos os dias.";
 const motivos = [
   "Seu sorriso ilumina meu dia 😊",
@@ -32,6 +75,11 @@ const motivos = [
   "Seu abraço é meu lugar favorito 🤗",
   "A vida com você é muito mais linda ❤️"
 ];
+
+let fase = 1;
+let motivoAtual = -1;
+let letrasMostradas = 0;
+let tempoCartinha;
 
 let coracoes = [];
 for (let i = 0; i < 50; i++) coracoes.push(criaCoracao());
