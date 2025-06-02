@@ -1,0 +1,11 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+canvas {
+  display: block;
+  background: linear-gradient(to top, #ffe6e6, #ffccff);
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Nossas Fotos 💑</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #fff0f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    img {
+      max-width: 80vw;
+      max-height: 60vh;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    .botoes {
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #e91e63;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #d81b60;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Nossas Memórias 💖</h1>
+  <img id="foto" src="fotos/foto1.jpg" alt="Foto do casal">
+  
+  <div class="botoes">
+    <button onclick="voltar()">← Anterior</button>
+    <button onclick="proxima()">Próxima →</button>
+  </div>
+
+  <script>
+    const total = 20;
+    let atual = 1;
+
+    function atualizarFoto() {
+      document.getElementById('foto').src = `fotos/foto ${atual}.jpeg`;
+    }
+
+    function proxima() {
+      atual = atual >= total ? 1 : atual + 1;
+      atualizarFoto();
+    }
+
+    function voltar() {
+      atual = atual <= 1 ? total : atual - 1;
+      atualizarFoto();
+    }
+  </script>
+
+</body>
+</html>
