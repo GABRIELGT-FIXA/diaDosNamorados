@@ -41,13 +41,35 @@
     button:hover {
       background-color: #d81b60;
     }
+
+    @media (max-width: 600px) {
+      img {
+        max-width: 90vw;
+        max-height: 50vh;
+      }
+
+      h1 {
+        font-size: 20px;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .botoes {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      button {
+        width: 80vw;
+      }
+    }
   </style>
 </head>
 <body>
   <audio id="musicaFundo" src="musica/fundo.mp3" autoplay loop></audio>
   <h1>Nossas Memórias 💖</h1>
   <img id="foto" src="fotos/foto1.jpg" alt="Foto do casal">
-  
+
   <div class="botoes">
     <button onclick="voltar()">← Anterior</button>
     <button onclick="proxima()">Próxima →</button>
@@ -58,7 +80,7 @@
     let atual = 1;
 
     function atualizarFoto() {
-      document.getElementById('foto').src = `fotos/foto ${atual}.jpeg`;
+      document.getElementById('foto').src = `fotos/foto${atual}.jpeg`;
     }
 
     function proxima() {
