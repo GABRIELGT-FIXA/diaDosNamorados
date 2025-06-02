@@ -13,6 +13,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      position: relative;
     }
 
     img {
@@ -42,34 +43,30 @@
       background-color: #d81b60;
     }
 
-    @media (max-width: 600px) {
-      img {
-        max-width: 90vw;
-        max-height: 50vh;
-      }
-
-      h1 {
-        font-size: 20px;
-        text-align: center;
-        padding: 10px;
-      }
-
-      .botoes {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      button {
-        width: 80vw;
-      }
+    #btnTocarMusica {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
-  <audio id="musicaFundo" src="musica/fundo.mp3" autoplay loop></audio>
+
+  <button id="btnTocarMusica">Tocar música 🎵</button>
+
+  <audio id="musicaFundo" src="musica/fundo.mp3" loop></audio>
+
   <h1>Nossas Memórias 💖</h1>
   <img id="foto" src="fotos/foto1.jpg" alt="Foto do casal">
-
+  
   <div class="botoes">
     <button onclick="voltar()">← Anterior</button>
     <button onclick="proxima()">Próxima →</button>
@@ -92,6 +89,18 @@
       atual = atual <= 1 ? total : atual - 1;
       atualizarFoto();
     }
+
+    // Botão para tocar música no iPhone e outros dispositivos que bloqueiam autoplay
+    const btnTocar = document.getElementById('btnTocarMusica');
+    const musica = document.getElementById('musicaFundo');
+
+    btnTocar.addEventListener('click', () => {
+      musica.play().then(() => {
+        btnTocar.style.display = 'none';
+      }).catch((e) => {
+        alert('Não foi possível tocar a música automaticamente. Tente novamente.');
+      });
+    });
   </script>
 
 </body>
