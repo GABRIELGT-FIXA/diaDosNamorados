@@ -3,9 +3,12 @@ body, html {
   padding: 0;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
+  touch-action: manipulation;
 }
 
 canvas {
   display: block;
+  width: 100vw;
+  height: 100vh;
   background: linear-gradient(to top, #ffe6e6, #ffccff);
 }
