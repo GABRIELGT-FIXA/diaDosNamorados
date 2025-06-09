@@ -3,6 +3,7 @@ const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
+  canvas.
   canvas.width = window.innerWidth * dpr;
   canvas.height = window.innerHeight * dpr;
   canvas.style.width = window.innerWidth + "px";
@@ -66,13 +67,13 @@ window.addEventListener('resize', () => {
   posicionarBotoes();
 });
 
-const pergunta = "Quer ser meu amor pra sempre?";
-const fraseCartinha = "Desde o dia que te conheci, minha vida ganhou mais cor, mais paz e muito amor. Você é meu presente todos os dias.";
+const pergunta = "Ainda não é a hora de eu te entregar a nossa aliança, ainda quero fazer algo tão especial quanto você.";
+const fraseCartinha = "Desde o dia que te conheci, minha vida ganhou mais leveza, mais paz e muito amor. Você é a minha benção todos os dias.";
 const motivos = [
   "Seu sorriso ilumina meu dia 😊",
-  "Você me faz rir até nos dias difíceis 💫",
+  "Você me faz feliz até nos dias difíceis 💫",
   "Você me entende como ninguém 💬",
-  "Seu abraço é meu lugar favorito 🤗",
+  "Seu abraço é como uma casa aconchegante 🤗",
   "A vida com você é muito mais linda ❤️"
 ];
 
@@ -127,7 +128,7 @@ function desenhar() {
   if (fase === 1) {
     ctx.fillStyle = "#000";
     ctx.font = "28px Arial";
-    ctx.fillText(pergunta, window.innerWidth / 2, 150);
+    desenhaTextoMultilinha(pergunta, window.innerWidth / 2, 150, 250);
     desenhaBotao(botaoSim);
     desenhaBotao(botaoNao);
   } else if (fase === 2) {
